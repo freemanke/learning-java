@@ -6,8 +6,6 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.springframework.stereotype.Component;
 
-import java.util.Date;
-
 /**
  * Created by Freeman Ke (zgke@thoughtworks.com) $on 23/02/2017
  */
