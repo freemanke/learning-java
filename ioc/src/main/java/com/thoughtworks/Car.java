@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class Car {
 
-    private String name = "unknown";
+    private String name;
 
     public String getName() {
         return name;
