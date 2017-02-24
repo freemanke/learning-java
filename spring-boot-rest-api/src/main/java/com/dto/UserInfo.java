@@ -1,32 +1,22 @@
-package com.entity;
+package com.dto;
 
 import org.springframework.stereotype.Component;
-
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
 
 /**
  * Created by Freeman Ke (zgke@thoughtworks.com) $on 24/02/2017
  */
 
-@Entity
-@Table(name = "USER")
-public class User {
+@Component
+public class UserInfo {
 
-    @Id
-    @GeneratedValue
-    private Long id;
-
-
+    private long id;
     private String name;
 
-    public Long getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(long id) {
         this.id = id;
     }
 
