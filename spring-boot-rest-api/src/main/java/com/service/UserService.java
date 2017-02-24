@@ -1,9 +1,9 @@
-package com.services;
+package com.service;
 
 import com.dto.UserInfo;
 import com.entity.User;
 import com.mapper.UserMapper;
-import com.repositories.UserRepository;
+import com.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,7 +24,7 @@ public class UserService {
 
     public UserInfo findByName(String name) {
         List<User> users = userRepository.findByName(name);
-        if(users.size() != 0) {
+        if (users.size() != 0) {
             User user = userRepository.findByName(name).get(0);
             UserInfo userInfo = userMapper.map(user, UserInfo.class);
 
@@ -35,6 +35,10 @@ public class UserService {
     }
 
     public UserInfo addUser(UserInfo userInfo) {
+        if (userInfo == null) throw new IllegalArgumentException("userInfo can't be null");
+        if (userInfo.getName() == null) throw new IllegalArgumentException("name can't be null");
+
+        userInfo.setId(0);
         User user = userMapper.map(userInfo, User.class);
         user = userRepository.save(user);
 
@@ -42,7 +46,8 @@ public class UserService {
     }
 
     public UserInfo updateUser(UserInfo userInfo) throws Exception {
-        if (userInfo == null) throw new NullPointerException("userInfo");
+        if (userInfo == null) throw new IllegalArgumentException("userInfo");
+        if (userInfo.getId() <= 0) throw new IllegalArgumentException("id");
 
         User old = userRepository.findOne(userInfo.getId());
         if (old == null) throw new Exception("can not find user {id=" + userInfo.getId() + "}");

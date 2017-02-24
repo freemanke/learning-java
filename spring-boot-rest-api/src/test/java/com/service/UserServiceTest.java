@@ -1,4 +1,4 @@
-package com.services;
+package com.service;
 
 import com.BaseTest;
 import com.dto.UserInfo;
@@ -14,6 +14,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class UserServiceTest extends BaseTest {
     @Autowired
     UserService userService;
+
+    @Test(expected = IllegalArgumentException.class)
+    public void should_throw_exception_given_null_user() {
+        userService.addUser(null);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void should_throw_exception_given_null_user_name() {
+        UserInfo userInfo = new UserInfo();
+        userService.addUser(userInfo);
+    }
 
     @Test
     public void should_add_one_user() {
