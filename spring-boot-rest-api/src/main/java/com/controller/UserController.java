@@ -1,7 +1,6 @@
 package com.controller;
 
 import com.dto.UserInfo;
-import com.mapper.UserMapper;
 import com.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -16,9 +15,6 @@ public class UserController {
 
     @Autowired
     private UserService userService;
-
-    @Autowired
-    private UserMapper userMapper;
 
     @RequestMapping("/{name}")
     public UserInfo get(@PathVariable("name") String name) {
