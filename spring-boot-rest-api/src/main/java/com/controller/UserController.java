@@ -1,11 +1,9 @@
 package com.controller;
 
 import com.dto.UserInfo;
-import com.entity.User;
 import com.mapper.UserMapper;
-import com.services.UserService;
+import com.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -23,7 +21,7 @@ public class UserController {
     private UserMapper userMapper;
 
     @RequestMapping("/{name}")
-    public UserInfo view(@PathVariable("name") String name) {
+    public UserInfo get(@PathVariable("name") String name) {
         UserInfo userInfo = userService.findByName(name);
 
         if (userInfo == null) {
@@ -35,7 +33,12 @@ public class UserController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public UserInfo Update(@RequestBody UserInfo userInfo) throws Exception {
+    public UserInfo add(@RequestBody UserInfo userInfo) throws Exception {
+        return userService.updateUser(userInfo);
+    }
+
+    @RequestMapping(method = RequestMethod.PUT)
+    public UserInfo update(@RequestBody UserInfo userInfo) throws Exception {
         return userService.updateUser(userInfo);
     }
 }

@@ -3,6 +3,7 @@ out/
 **/*.idea/
 build/
 classes/
+target/
 **/*.log
 application-local.properties
 **~
