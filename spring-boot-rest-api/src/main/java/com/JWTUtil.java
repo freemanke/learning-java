@@ -4,9 +4,7 @@ import io.jsonwebtoken.*;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by Freeman Ke (zgke@thoughtworks.com) $on 24/02/2017
@@ -15,7 +13,7 @@ import java.util.List;
 @Component
 public class JWTUtil {
 
-    public String createJWT(String subject, long ttlMillis, List<String> claims, String key) throws Exception {
+    public String createJWT(String subject, long ttlMillis, Map<String, String> claims, String key) throws Exception {
 
         SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256;
         long nowMillis = System.currentTimeMillis();
@@ -30,8 +28,8 @@ public class JWTUtil {
             Date exp = new Date(expMillis);
             builder.setExpiration(exp);
         }
-        if(claims!=null) {
-            claims.forEach(a -> builder.claim(a, true));
+        if (claims != null) {
+            claims.forEach((a, b) -> builder.claim(a, b));
         }
 
         return builder.compact();
@@ -49,15 +47,15 @@ public class JWTUtil {
         return false;
     }
 
-    public List<String> parseJWT(String jwt, String key) {
-        List<String> claims = new ArrayList<>();
+    public Map<String, String> parseJWT(String jwt, String key) {
+        Map<String, String> claims = new HashMap<>();
         if (jwt != null) {
             try {
                 Jwts.parser()
                         .setSigningKey(key)
                         .parseClaimsJws(jwt)
                         .getBody()
-                        .forEach((a, b) -> claims.add(a));
+                        .forEach((a, b) -> claims.put(a, b.toString()));
             } catch (SignatureException e) {
 
             }

@@ -2,8 +2,8 @@ package com;
 
 import org.junit.Assert;
 import org.junit.Test;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by Freeman Ke (zgke@thoughtworks.com) $on 24/02/2017
@@ -15,13 +15,9 @@ public class JWTUtilTest {
     @Test
     public void should_create_valid_token() throws Exception {
 
-        ArrayList<String> claims = new ArrayList<>();
-        claims.add("user");
-        claims.add("admin");
-        claims.add("can_read_book");
-        claims.add("can_add_book");
-        claims.add("can_update_book");
-        claims.add("can_remove_book");
+        Map<String, String> claims = new HashMap<>();
+        claims.put("name", "freeman");
+        claims.put("role", "ADMIN,USER,READ_BOOK,WRITE_BOOK");
 
         JWTUtil jwt = new JWTUtil();
         String token = jwt.createJWT("freeman", 1000 * 60 * 60 * 24 * 30 * 12 * 100,
@@ -32,15 +28,14 @@ public class JWTUtilTest {
     }
 
     @Test
-    public void should_return_true_given_valid_jwt_token() {
+    public void should_parse_correct_jwt() {
         JWTUtil util = new JWTUtil();
-        String jwt = "eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiJqd3QiLCJpYXQiOjE0ODc5MzA3MzUsInN1YiI6Im" +
-                "ZyZWVtYW4iLCJleHAiOjE0ODg3NzQ0MTMsInVzZXIiOnRydWUsImFkbWluIjp0cnVlLCJjYW5fcmVh" +
-                "ZF9ib29rIjp0cnVlLCJjYW5fYWRkX2Jvb2siOnRydWUsImNhbl91cGRhdGVfYm9vayI6dHJ1ZSwiY2" +
-                "FuX3JlbW92ZV9ib29rIjp0cnVlfQ.p6zZCKUSFFlZdl-Ifgr5-6_hYWtfmW1NsScgp5FSUVs";
+        String jwt = "eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiJqd3QiLCJpYXQiOjE0ODc5MzE3MjIsInN1YiI6ImZyZWVtYW4iLCJleHAiOjE0O" +
+                "Dg3NzUzOTksInJvbGUiOiJBRE1JTixVU0VSLFJFQURfQk9PSyxXUklURV9CT09LIiwibmFtZSI6ImZyZWVtYW4ifQ.vGwNzhh-8m" +
+                "BrHJ-HzvPCJsw9a9Ec9bWKXStf7kjJJBY";
         util.isValidToken(jwt, key);
-        List<String> claims = util.parseJWT(jwt, key);
-        claims.forEach(a -> System.out.println(a));
+        Map<String, String> claims = util.parseJWT(jwt, key);
+        claims.forEach((a, b) -> System.out.println(a + ", " + b));
 
         Assert.assertTrue(claims != null);
     }
